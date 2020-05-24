@@ -1,0 +1,36 @@
+To do:
+--------------------
+Align transport with scheme to avoid confusion
+Add websocket support
+Add HTTP/2.0 support
+Add max requests/other limits incuding timeout spec for routes/servers
+  to handle external attacks.
+
+Look over max restarts again since we may get listen socket errors,
+check how it is done in other services.
+
+Where go the try's
+TCP/SSL keep-alive?
+encoding of headers, escpecialy when failing (binary)
+Add support for decoding headers
+
+
+Removed but will be used elsewhere
+--------------------
+
+check_header(<<"if-modified-since">>, Since, T, N, State, Headers) ->
+    try shttpd_date:decode(Since) of
+        Posix ->
+            get_header(T, N, State#state{id_modified_since =Posix},Headers,<<>>)
+    catch
+        _ :_ ->
+            response(400, closing(State#state{headers = Headers}))
+    end;
+check_header(<<"last-modified">>, Last, T, N, State, Headers) ->
+    try shttpd_date:decode(Last) of
+        Posix ->
+            get_header(T, N, State#state{last_modified = Last}, Headers, <<>>)
+    catch
+        _ :_ ->
+            response(400, closing(State#state{headers = Headers}))
+    end;

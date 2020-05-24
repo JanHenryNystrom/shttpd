@@ -1,0 +1,13 @@
+.eunit
+deps
+ebin
+*.o
+*.beam
+*.plt
+rebar3
+rebar.lock
+.build
+doc/*.html
+doc/*.png
+doc/*.css
+doc/edoc-info
